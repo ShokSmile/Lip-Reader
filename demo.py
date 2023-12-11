@@ -20,23 +20,23 @@ class InferencePipeline(torch.nn.Module):
                 from preparation.detectors.mediapipe.video_process import VideoProcess
                 self.landmarks_detector = LandmarksDetector()
                 self.video_process = VideoProcess(convert_gray=False)
+                self.video_transform = VideoTransform(subset="test")
             # elif detector == "retinaface":
             #     from preparation.detectors.retinaface.detector import LandmarksDetector
             #     from preparation.detectors.retinaface.video_process import VideoProcess
             #     self.landmarks_detector = LandmarksDetector(device="cuda:0")
             #     self.video_process = VideoProcess(convert_gray=False)
-            # self.video_transform = VideoTransform(subset="test")
 
             else:
                 raise ValueError("Use only mediapipe, please")
 
             self.modelmodule = ModelModule(cfg)
-            self.modelmodule.model.load_state_dict(torch.load(cfg.pretrained_model_path, map_location=lambda storage, loc: storage))
+            self.modelmodule.model.load_state_dict(
+                torch.load(cfg.pretrained_model_path, map_location=lambda storage, loc: storage))
             self.modelmodule.eval()
 
         else:
             raise ValueError('Please provide modality from {audio, audiovisual}')
-
 
     def forward(self, data_filename):
         data_filename = os.path.abspath(data_filename)
