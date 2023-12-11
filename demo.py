@@ -9,40 +9,46 @@ from datamodule.transforms import AudioTransform, VideoTransform
 
 
 class InferencePipeline(torch.nn.Module):
-    def __init__(self, cfg, detector="retinaface"):
+    def __init__(self, cfg, detector="mediapipe"):
         super(InferencePipeline, self).__init__()
         self.modality = cfg.data.modality
-        if self.modality in ["audio", "audiovisual"]:
-            self.audio_transform = AudioTransform(subset="test")
-        elif self.modality in ["video", "audiovisual"]:
+        # if self.modality in ["audio", "audiovisual"]:
+        #     self.audio_transform = AudioTransform(subset="test")
+        if self.modality in ["video", "audiovisual"]:
             if detector == "mediapipe":
                 from preparation.detectors.mediapipe.detector import LandmarksDetector
                 from preparation.detectors.mediapipe.video_process import VideoProcess
                 self.landmarks_detector = LandmarksDetector()
                 self.video_process = VideoProcess(convert_gray=False)
-            elif detector == "retinaface":
-                from preparation.detectors.retinaface.detector import LandmarksDetector
-                from preparation.detectors.retinaface.video_process import VideoProcess
-                self.landmarks_detector = LandmarksDetector(device="cuda:0")
-                self.video_process = VideoProcess(convert_gray=False)
-            self.video_transform = VideoTransform(subset="test")
+            # elif detector == "retinaface":
+            #     from preparation.detectors.retinaface.detector import LandmarksDetector
+            #     from preparation.detectors.retinaface.video_process import VideoProcess
+            #     self.landmarks_detector = LandmarksDetector(device="cuda:0")
+            #     self.video_process = VideoProcess(convert_gray=False)
+            # self.video_transform = VideoTransform(subset="test")
 
-        self.modelmodule = ModelModule(cfg)
-        self.modelmodule.model.load_state_dict(torch.load(cfg.pretrained_model_path, map_location=lambda storage, loc: storage))
-        self.modelmodule.eval()
+            else:
+                raise ValueError("Use only mediapipe, please")
+
+            self.modelmodule = ModelModule(cfg)
+            self.modelmodule.model.load_state_dict(torch.load(cfg.pretrained_model_path, map_location=lambda storage, loc: storage))
+            self.modelmodule.eval()
+
+        else:
+            raise ValueError('Please provide modality from {audio, audiovisual}')
 
 
     def forward(self, data_filename):
         data_filename = os.path.abspath(data_filename)
         assert os.path.isfile(data_filename), f"data_filename: {data_filename} does not exist."
 
-        if self.modality == "audio":
-            audio, sample_rate = self.load_audio(data_filename)
-            audio = self.audio_process(audio, sample_rate)
-            audio = audio.transpose(1, 0)
-            audio = self.audio_transform(audio)
-            with torch.no_grad():
-                transcript = self.modelmodule(audio)
+        # if self.modality == "audio":
+        #     audio, sample_rate = self.load_audio(data_filename)
+        #     audio = self.audio_process(audio, sample_rate)
+        #     audio = audio.transpose(1, 0)
+        #     audio = self.audio_transform(audio)
+        #     with torch.no_grad():
+        #         transcript = self.modelmodule(audio)
 
         if self.modality == "video":
             video = self.load_video(data_filename)
