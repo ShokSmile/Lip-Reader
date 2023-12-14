@@ -78,7 +78,7 @@ class InferencePipeline(torch.nn.Module):
         return waveform
 
 
-@hydra.main(version_base="1.3", config_path="configs", config_name="config")
+# @hydra.main(version_base="1.3", config_path="configs", config_name="config")
 def main(cfg):
     pipeline = InferencePipeline(cfg)
     transcript = pipeline(cfg.file_path)
