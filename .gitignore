@@ -7,3 +7,5 @@ outputs/
 *.pyc
 *.tar
 .DS_Store
+model_weights/
+fairseq/
