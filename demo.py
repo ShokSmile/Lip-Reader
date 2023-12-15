@@ -1,11 +1,10 @@
 import os
-
-import hydra
 import torch
 import torchaudio
 import torchvision
 from lightning import ModelModule
 from datamodule.transforms import AudioTransform, VideoTransform
+from hydra import compose, initialize
 
 
 
@@ -84,10 +83,12 @@ class InferencePipeline(torch.nn.Module):
 def main(cfg):
     pipeline = InferencePipeline(cfg)
     transcript = pipeline(cfg.file_path)
+    print(f"transcript: {transcript}")
     return transcript
-    # print(f"transcript: {transcript}")
+
 
 
 if __name__ == "__main__":
-
-    main()
+    with initialize(version_base="1.3", config_path="configs"):
+        cfg = compose(config_name="config", overrides=["data.modality=video", f'file_path=videos/video_of_aleksandr.mp4'])
+    main(cfg)

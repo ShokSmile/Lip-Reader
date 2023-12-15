@@ -26,13 +26,6 @@ def shoot_video(file_name: str):
 
 
 if __name__ == '__main__':
-   # shoot_video('a')
-   from hydra import compose, initialize
-   from omegaconf import OmegaConf
-
-   with initialize(version_base="1.3",config_path="configs"):
-       cfg = compose(config_name="config", overrides=["data.modality=video", f"file_path=videos/video_of_{5}_{8}.mp4"])
-
-   print(OmegaConf.to_yaml(cfg))
+   shoot_video('aleksandr')
 
 
