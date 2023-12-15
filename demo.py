@@ -8,10 +8,11 @@ from lightning import ModelModule
 from datamodule.transforms import AudioTransform, VideoTransform
 
 
+
 class InferencePipeline(torch.nn.Module):
     def __init__(self, cfg, detector="mediapipe"):
         super(InferencePipeline, self).__init__()
-        self.modality = cfg.data.modality
+        self.modality = 'video'
         # if self.modality in ["audio", "audiovisual"]:
         #     self.audio_transform = AudioTransform(subset="test")
         if self.modality in ["video", "audiovisual"]:
@@ -30,6 +31,7 @@ class InferencePipeline(torch.nn.Module):
             else:
                 raise ValueError("Use only mediapipe, please")
 
+            cfg.data.modality = 'video'
             self.modelmodule = ModelModule(cfg)
             self.modelmodule.model.load_state_dict(
                 torch.load(cfg.pretrained_model_path, map_location=lambda storage, loc: storage))
@@ -78,12 +80,14 @@ class InferencePipeline(torch.nn.Module):
         return waveform
 
 
-# @hydra.main(version_base="1.3", config_path="configs", config_name="config")
+# @hydra.main(config_path="configs", config_name="config")
 def main(cfg):
     pipeline = InferencePipeline(cfg)
     transcript = pipeline(cfg.file_path)
-    print(f"transcript: {transcript}")
+    return transcript
+    # print(f"transcript: {transcript}")
 
 
 if __name__ == "__main__":
+
     main()

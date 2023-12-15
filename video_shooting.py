@@ -26,31 +26,13 @@ def shoot_video(file_name: str):
 
 
 if __name__ == '__main__':
-    # shoot_video('a')
-    cap = cv2.VideoCapture('videos/video_of_aleksandr.mp4')
-    # Check if camera opened successfully
-    if (cap.isOpened() == False):
-        print("Error opening video stream or file")
+   # shoot_video('a')
+   from hydra import compose, initialize
+   from omegaconf import OmegaConf
 
-    # Read until video is completed
-    while (cap.isOpened()):
-        # Capture frame-by-frame
-        ret, frame = cap.read()
-        if ret == True:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # Display the resulting frame
-            cv2.imshow('Frame', frame)
+   with initialize(version_base="1.3",config_path="configs"):
+       cfg = compose(config_name="config", overrides=["data.modality=video", f"file_path=videos/video_of_{5}_{8}.mp4"])
 
-            # Press Q on keyboard to  exit
-            if cv2.waitKey(25) & 0xFF == ord('q'):
-                break
+   print(OmegaConf.to_yaml(cfg))
 
-        # Break the loop
-        else:
-            break
 
-    # When everything done, release the video capture object
-    cap.release()
-
-    # Closes all the frames
-    cv2.destroyAllWindows()

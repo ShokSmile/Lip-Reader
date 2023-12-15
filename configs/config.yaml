@@ -17,7 +17,6 @@ gpus:
 slurm_job_id:
 file_path:
 ckpt_path:
-pretrained_model_path:
+pretrained_model_path: model_weights/3448lg0x_r4ptmp
 transfer_frontend:
 transfer_encoder:
-

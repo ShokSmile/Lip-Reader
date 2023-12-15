@@ -37,6 +37,6 @@ def voice_generation(answer: str):
 
 
 if __name__ == '__main__':
-    answer = generate_response('How are you?')
+    answer = generate_response('WHAT COULD I DO TO MAKE THINGS BETTER?'.lower())
 
     voice_generation(answer)
