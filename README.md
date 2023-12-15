@@ -32,7 +32,7 @@ To get started, make sure you have installed everything described in the `auto-a
 1. Install the required Python packages:
 
     ```bash
-    pip install -r requirements.txt
+    pip install -r streamlit_requirements.txt
     ```
 
 2. Choose the model weights for `auto-avsr` specifically designed for video processing. Download the weights and place them in the `model_weights` folder.
@@ -44,6 +44,7 @@ To get started, make sure you have installed everything described in the `auto-a
     ```
 
 This will start the application, and you can access it through your web browser. Make sure to follow any additional instructions provided by the application for a smooth experience.
+ 
 
 > Write if you have any questions. Your comments are always welcome. 
 
