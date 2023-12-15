@@ -1,1 +1,13 @@
 h5py
+streamlit
+torch
+torchvision
+torchaudio
+pytorch-lightning==1.5.10
+av
+hydra-core --upgrade
+sentencepiece
+tensorflow
+mediapipe
+tensorrt
+ibug
