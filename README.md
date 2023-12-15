@@ -27,6 +27,30 @@ We chose the Streamlit framework for developing the web application, providing u
 
 ---
 
+To get started, make sure you have installed everything described in the `auto-avsr` section below. After that, follow these steps:
+
+1. Install the required Python packages:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2. Choose the model weights for `auto-avsr` specifically designed for video processing. Download the weights and place them in the `model_weights` folder.
+
+3. Run the application using the following command:
+
+    ```bash
+    streamlit run total_app.py
+    ```
+
+This will start the application, and you can access it through your web browser. Make sure to follow any additional instructions provided by the application for a smooth experience.
+
+> Write if you have any questions. Your comments are always welcome. 
+
+Enjoy using the application!
+
+
+
 
 
 ## Auto-AVSR: Lip-Reading Sentences Project
